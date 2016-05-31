@@ -30,18 +30,28 @@ def schema
   }
 end
 
-def test_file_path
+def test_folder_path
   vcap_services = JSON.parse(ENV["VCAP_SERVICES"])
   JSON::Validator.validate!(schema, vcap_services)
   vcap_services["ScaleIO"][0]["volume_mounts"][0]["container_path"]
 end
 
-get '/text' do
-  send_file File.join(test_file_path, "test.txt")
+get "/" do
+  @filepath = test_folder_path
+  if File.exist?(File.join(test_folder_path, "test.txt"))
+    @filecontent = File.read(File.join(test_folder_path, "test.txt"))
+  else
+    @filecontent = ""
+  end
+  @instance = ENV["CF_INSTANCE_INDEX"]
+
+  erb :index
 end
 
-post '/text' do
-  request.body.rewind
-  body = request.body.read
-  File.write(File.join(test_file_path, "test.txt"), body)
+post "/" do
+  File.write(File.join(test_folder_path, "test.txt"), params[:filecontent])
+  @filepath = test_folder_path
+  @instance = ENV["CF_INSTANCE_INDEX"]
+  @filecontent = File.read(File.join(test_folder_path, "test.txt"))
+  erb :index
 end
