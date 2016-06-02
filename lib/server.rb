@@ -5,9 +5,9 @@ require "json-schema"
 def schema
   {
     "type" => "object",
-    "required" => ["ScaleIO"],
+    "required" => ["scaleiogo"],
     "properties" => {
-      "ScaleIO" => {
+      "scaleiogo" => {
         "type" => "array",
         "items" => {
           "type" => "object",
@@ -33,7 +33,7 @@ end
 def test_folder_path
   vcap_services = JSON.parse(ENV["VCAP_SERVICES"])
   JSON::Validator.validate!(schema, vcap_services)
-  vcap_services["ScaleIO"][0]["volume_mounts"][0]["container_path"]
+  vcap_services["scaleiogo"][0]["volume_mounts"][0]["container_path"]
 end
 
 get "/" do
