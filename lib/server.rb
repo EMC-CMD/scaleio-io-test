@@ -2,37 +2,8 @@ require 'sinatra'
 require 'json'
 require "json-schema"
 
-def schema
-  {
-    "type" => "object",
-    "required" => ["scaleiogo"],
-    "properties" => {
-      "scaleiogo" => {
-        "type" => "array",
-        "items" => {
-          "type" => "object",
-          "required" => ["volume_mounts"],
-          "properties" => {
-            "volume_mounts" => {
-              "type"=> "array",
-              "required" => ["container_path"],
-              "items" => {
-                "type" => "object",
-                "properties" => {
-                  "container_path" => {"type" => "string"}
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-end
-
 def test_folder_path
   vcap_services = JSON.parse(ENV["VCAP_SERVICES"])
-  JSON::Validator.validate!(schema, vcap_services)
   vcap_services["scaleiogo-ci"][0]["volume_mounts"][0]["container_path"]
 end
 
