@@ -33,7 +33,7 @@ end
 def test_folder_path
   vcap_services = JSON.parse(ENV["VCAP_SERVICES"])
   JSON::Validator.validate!(schema, vcap_services)
-  vcap_services["scaleiogo"][0]["volume_mounts"][0]["container_path"]
+  vcap_services["scaleiogo-ci"][0]["volume_mounts"][0]["container_path"]
 end
 
 get "/data" do
