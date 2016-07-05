@@ -2,9 +2,11 @@ require 'sinatra'
 require 'json'
 require "json-schema"
 
+set :port, ENV["PORT"]
+
 def test_folder_path
   vcap_services = JSON.parse(ENV["VCAP_SERVICES"])
-  vcap_services["scaleiogo-ci"][0]["volume_mounts"][0]["container_path"]
+  vcap_services["EMC-Persistence"][0]["volume_mounts"][0]["container_path"]
 end
 
 get "/data" do

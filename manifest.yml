@@ -1,3 +1,4 @@
 ---
 applications:
-- name: scaleio-io-test
+- name: persist-acceptance-app
+  buildpack: ruby_buildpack
